@@ -1,7 +1,6 @@
-import java.awt.image.RescaleOp;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Stack;
-import javax.swing.event.AncestorEvent;
 
 public class StringQuestions {
     public String removeOuterParentheses(String s) {
@@ -106,5 +105,68 @@ public class StringQuestions {
 
             return true;
         }
+
+
+        public String longestCommonPrefix(String[] str) {
+            String ans = "";
+            for(int i = 0;i<str[0].length();i++){
+                char ch = str[0].charAt(i);
+    
+                boolean match = true;
+                for(int j=1;j<str.length;j++){
+                    if(str[j].length()<=i || str[j].charAt(i)!=ch) match = false;
+                }
+    
+                if(match) ans+=ch;
+            }
+            return ans;
+        }
+
+        public String longestCommonPrefixOpt(String[] str) {
+            String ans = "";
+            int n = str.length;
+            Arrays.sort(str);
+            int i = 0;
+            char first[] = str[0].toCharArray();
+            char last[] = str[n-1].toCharArray();
+
+
+            while(i<first.length){
+                if(first[i]!=last[i]) break;
+                else ans+=first[i];
+            }
+            return ans;
+        }
+
+
+        public boolean rotateString(String s, String goal) {
+            if(s.length()!=goal.length()) return false;
+            for(int i = 0;i<goal.length();i++){
+                if(goal.charAt(i) == s.charAt(0)){
+                    if(match(s,goal,i)) return true;
+                }
+            }
+            return false;
+        }
+
+        private boolean  match(String s,String goal,int index){
+            for(int i = 0;i<s.length();i++){
+                if(s.charAt(i) != goal.charAt((index+1)%goal.length())) return false;
+            }
+            return true;
+        }
+
+        public boolean rotateStringOpt(String s, String goal) {
+            if(s.length()!=goal.length()) return false;
+            return (s+s).contains(goal);
+        }
+
+        public boolean isAnagram(String s, String t) {
+            if(s.length() != t.length()) return false;
+            char[] arr1 = s.toCharArray();
+            char[] arr2 = t.toCharArray();
+            Arrays.sort(arr1);
+            Arrays.sort(arr2);
+            return Arrays.equals(arr1, arr2);
+         }
     }
-}
