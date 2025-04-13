@@ -1,5 +1,7 @@
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Stack;
 
 public class StringQuestions {
@@ -169,4 +171,95 @@ public class StringQuestions {
             Arrays.sort(arr2);
             return Arrays.equals(arr1, arr2);
          }
+
+         public boolean isAnagramOpt(String s, String t) {
+            if(s.length() != t.length()) return false;
+            HashMap<Character,Integer> map1 = new HashMap<>();
+            HashMap<Character,Integer> map2 = new HashMap<>();
+
+            for(int i = 0;i<s.length();i++){
+                char ch1 = s.charAt(i);
+                char ch2 = t.charAt(i);
+                
+                map1.put(ch1, map1.getOrDefault(ch1, 0) + 1);
+                map2.put(ch2, map2.getOrDefault(ch2, 0) + 1);
+            }
+
+
+            return map1.equals(map2);
+        }
+
+
+        public String frequencySort(String s) {
+            HashMap<Character,Integer> map = new HashMap<>();
+            for(char ch : s.toCharArray()){
+                map.put(ch, map.getOrDefault(ch, 0)+1);
+            }
+            List<Character> list = new ArrayList<>(map.keySet());
+            StringBuilder ans = new StringBuilder();
+            list.sort((ob1,ob2) -> map.get(ob2)-map.get(ob1));
+            
+            for(char ch : list){
+                for(int i = 0;i<map.get(ch);i++){
+                    ans.append(ch);
+                }
+            }
+            return ans.toString();
+        }
+
+        public int maxDepth(String s) {
+            int depth = 0,maxDepth = -1;
+            for(char ch : s.toCharArray()){
+                if(ch=='(') depth++;
+                if(ch==')') depth--;
+                maxDepth = Math.max(depth, maxDepth);
+            }
+            return maxDepth;
+        }
+
+        public int romanToInt(String s) {
+            int i = s.length()-1;
+            int ans = 0;
+            while(i >= 0){
+                if(getNumericValue(s.charAt(i)) > getNumericValue(s.charAt(i-1))){
+                    ans+= getNumericValue(s.charAt(i-1)) - getNumericValue(s.charAt(i));
+                    i = i-2;
+                }else{
+                    ans+=getNumericValue(s.charAt(i));
+                    i--;
+                }
+            }
+            return ans;
+        }
+        private int getNumericValue(char c) {
+            if (c == 'I') return 1;
+            else if (c == 'V') return 5;
+            else if (c == 'X') return 10;
+            else if (c == 'L') return 50;
+            else if (c == 'C') return 100;
+            else if (c == 'D') return 500;
+            else if (c == 'M') return 1000;
+            else return 0; 
+        }
+
+public int myAtoi(String s) {
+        s = s.trim();
+        if (s.isEmpty()) return 0;
+
+        int index = 0;
+        char sign = '+';
+        if (s.charAt(index) == '-' || s.charAt(index) == '+') {
+            sign = s.charAt(index);
+            index++;
+        }
+
+        long num = 0; 
+        while (index < s.length() && Character.isDigit(s.charAt(index))) {
+            num = num * 10 + (s.charAt(index) - '0');
+            if(sign == '-' && -num<Integer.MIN_VALUE) num = Integer.MIN_VALUE;
+            if(sign == '-' && -num>Integer.MIN_VALUE) num = Integer.MAX_VALUE;
+            index++;
+        }
+        return (sign == '-') ? (int)(-num) : (int)num;
     }
+}
