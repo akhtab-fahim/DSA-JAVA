@@ -262,4 +262,78 @@ public int myAtoi(String s) {
         }
         return (sign == '-') ? (int)(-num) : (int)num;
     }
+
+    public String longestPalindrome(String s) {
+        int left,right;
+        StringBuilder ans = new StringBuilder();
+        for(int i = 1;i<s.length();i++){
+            left = i;
+            right = i;
+            while(left>=0 && right<s.length() && s.charAt(left) == s.charAt(right)){
+                left--;
+                right++;
+            }
+            StringBuilder pal = new StringBuilder(s.substring(left, right));
+            if(pal.length()>ans.length()){
+                ans = pal;
+            }
+
+        }
+        return ans.toString();
+    }
+
+    public int beautySum(String s) {
+        HashMap<Character,Integer> map = new HashMap<>();
+        for(char c : s.toCharArray()){
+            map.put(c, map.getOrDefault(c, 0)+1);
+        }
+        int minFreq = 0,maxFreq = 0;
+        for(int freq : map.values()){
+            minFreq = Math.min(freq, minFreq);
+            maxFreq = Math.max(freq, maxFreq);
+        }
+
+        return maxFreq-minFreq;
+    }
+
+    public int beautySumOpt(String s){
+        int sum = 0;
+        for(int i = 0;i<s.length();i++){
+            int freq[] = new int[26];
+            for(int j = i;j<s.length();j++){
+                freq[s.charAt(j)-'a']++;
+                int minFreq = Integer.MAX_VALUE,maxFreq = Integer.MIN_VALUE;
+                    for(int fr : freq){
+                        if(fr!=0){
+                            minFreq = Math.min(minFreq, fr);
+                            maxFreq = Math.max(maxFreq, fr);
+                        }
+                    }
+                    sum += maxFreq - minFreq;
+            }
+        }
+        return sum;
+    }
+
+    public int countHomogenous(String s) {
+        int count = 0;
+        int MOD = 1_000_000_007;
+        for(int i = 0;i<s.length();i++){
+            HashMap<Character,Integer> map = new HashMap<>();
+            for(int j = i;j<s.length();j++){
+                char ch = s.charAt(j);
+                if(map.isEmpty()){
+                    map.put(ch, 1);
+                }
+                if(!map.containsKey(ch)){
+                    break;
+                }
+                map.put(ch, map.getOrDefault(ch, 0)+1);
+                count = (count + 1)%MOD;
+            }
+        }
+        return count;
+    }
+
+
 }
