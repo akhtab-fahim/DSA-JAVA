@@ -336,4 +336,43 @@ public int myAtoi(String s) {
     }
 
 
+    public int countHomogenousOpt(String s) {
+        int count = 0;
+        int length = 1;
+        int MOD = 1_000_000_007;
+
+        for(int i = 1;i<s.length();i++){
+            if(s.charAt(i) == s.charAt(i-1)){
+                length++;
+            }else{
+                int noOfSubstrings = (length * (length + 1))/2;
+                count = (count +  noOfSubstrings) % MOD;
+                length = 1;
+            }
+        }
+        count = (count +  (length * (length + 1))/2) % MOD;
+        return count;
+    }
+
+    public int lengthOfLongestSubstring(String s) {
+        int streak = 0,maxStreak = 0;
+        HashMap<Character,Integer> map = new HashMap<>();
+        int i =0,startIndex = 0;
+        while(i<s.length()){
+            char c = s.charAt(i);
+            if(map.containsKey(c) && map.get(c)>= startIndex){
+                startIndex = map.get(c) + 1;
+                streak = i - startIndex + 1;
+            }else{
+                streak++;
+            }
+            map.put(c, i);
+            i++;
+            maxStreak = Math.max(maxStreak, streak);
+
+        }
+        return maxStreak;
+    }
+
+
 }

@@ -1,11 +1,25 @@
 
 public class SinglyLL {
-
+    
     private Node head;
     private Node tail;
     private Node temp;
     private int size;
-
+    
+    private class Node{
+        private int value;
+        private Node next;
+    
+        public Node(int val){
+            this.value = val;
+        }
+    
+        public Node(int val,Node next){
+            this.value = val;
+            this.next = next;
+        }
+    } 
+    
     public SinglyLL(){
         this.size = 0;
     }
@@ -86,7 +100,7 @@ public class SinglyLL {
         prevNode.next = currentNode.next;
         currentNode.next = null;
         size--;
-            }
+    }
 
             public Node insertRec(int index, int value, Node temp) {
                 if (index == 0) {
@@ -134,19 +148,6 @@ public class SinglyLL {
 
     }
 
-    private class Node{
-        private int value;
-        private Node next;
-
-        public Node(int val){
-            this.value = val;
-        }
-
-        public Node(int val,Node next){
-            this.value = val;
-            this.next = next;
-        }
-    } 
 
     //reverse a LL recurcive way
     public void reverseRec(Node node){
